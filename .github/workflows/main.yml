@@ -1,4 +1,4 @@
-name: tudentGradeActions
+name: StudentGradeActions
 on: workflow_dispatch
 jobs:
   Run-Test:
