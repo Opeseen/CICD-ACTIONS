@@ -10,9 +10,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-
       - name: MVN TEST
         run: mvn test
-
       - name: Checkstyle Analysis
         run: mvn checkstyle:checkstyle
