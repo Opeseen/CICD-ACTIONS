@@ -1,0 +1,8 @@
+com\opeyemi\fieldvalidation\repository\GradeRepository.class
+com\opeyemi\fieldvalidation\pojo\Grade.class
+com\opeyemi\fieldvalidation\FieldValidationApplication.class
+com\opeyemi\fieldvalidation\validators\ScoreValidator.class
+com\opeyemi\fieldvalidation\validators\Score.class
+com\opeyemi\fieldvalidation\Constant.class
+com\opeyemi\fieldvalidation\controller\GradeController.class
+com\opeyemi\fieldvalidation\service\GradeService.class
