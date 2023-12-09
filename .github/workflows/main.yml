@@ -1,1 +1,14 @@
+name: tudentGradeActions
+on: workflow_dispatch
+jobs:
+  Run-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v4
 
+      - name: MVN TEST
+        run: mvn test
+
+      - name: Checkstyle Analysis
+        run: mvn checkstyle:checkstyle
