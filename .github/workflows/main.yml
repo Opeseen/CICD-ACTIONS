@@ -6,6 +6,9 @@ jobs:
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: MVN TEST
         run: mvn test
