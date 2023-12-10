@@ -43,3 +43,23 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_URL }} #OPTIONAL
+
+  build:
+    needs: Run-Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build with Maven
+        run: mvn -B package -DskipTests --file pom.xml
+      
+      - name: Upload Maven Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: target/studentGrades-v1.jar
