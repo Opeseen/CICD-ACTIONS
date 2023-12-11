@@ -7,21 +7,20 @@
   background-color: #263238;
   text-align: center;
 }      
-.update
-{
-   display: inline-block;
-   width: 100%;      
-   height: 100%;
-   margin-bottom: 0.5em;
-   padding-top: .6em;
-   padding-bottom: .6em;
-   text-align: center;
-   font-size: 16px;
-   text-decoration: none;
-   color: #fff;
-   background-color: #04AA6D;
-   border-radius: 5px;
-   border: solid white 2px;
+.update{
+  display: inline-block;
+  width: 100%;      
+  height: 100%;
+  margin-bottom: 0.5em;
+  padding-top: .6em;
+  padding-bottom: .6em;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #04AA6D;
+  border-radius: 5px;
+  border: solid white 2px;
 }
 
 .update:hover {
@@ -47,9 +46,10 @@
 }
 
 #table tr:nth-child(even){background-color: white;}
-#table tr:nth-child(odd){background-color: #EDF7FF;}
+#table tr:nth-child(odd){background-color: #EDF7FF;} */
 
 #table tr:hover {background-color: #ddd;}
+#table tr {text-align: center;}
 
 #table th {
   padding-top: 12px;
@@ -106,3 +106,54 @@ body {
 }
 
 .alert.success {background-color: #04AA6D;}
+
+/* .inputWrapper{
+  padding: 0 0 20px 0;
+} */
+
+.ctaWrapper{
+  text-align: center;
+}
+
+.withdrawal.red{
+  background-color: #ff0000c5 !important;
+  color: #fff;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
+  padding: 12px;
+  width: 250px;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.deposit.green{
+  background-color: green !important;
+  color: #fff;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
+  padding: 12px;
+  width: 250px;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.transactions.blue{
+  background-color: blue !important;
+  color: #fff;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
+  padding: 12px;
+  width: 250px;
+  font-style: italic;
+  text-decoration: none;
+}
+
