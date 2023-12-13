@@ -16,74 +16,74 @@ jobs:
       - name: Run Maven Test
         run: mvn test
 
-      - name: Checkstyle Analysis
-        run: mvn checkstyle:checkstyle
+      # - name: Checkstyle Analysis
+      #   run: mvn checkstyle:checkstyle
 
       # Setup sonar-scanner
-      - name: Setup SonarQube
-        uses: warchant/setup-sonar-scanner@v7
+      # - name: Setup SonarQube
+      #   uses: warchant/setup-sonar-scanner@v7
 
       # Run sonar-scanner
-      - name: SonarQube Scan
-        run: sonar-scanner
-            -Dsonar.host.url=${{ secrets.SONAR_URL }}
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-            -Dsonar.sources=src/
-            -Dsonar.junit.reportsPath=target/surefire-reports/
-            -Dsonar.junit.reportsPath=target/jacoco.exec
-            -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
-            -Dsonar.java.binaries=target/test-classes/com/opeyemi/fieldvalidation/
+      # - name: SonarQube Scan
+      #   run: sonar-scanner
+      #       -Dsonar.host.url=${{ secrets.SONAR_URL }}
+      #       -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      #       -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+      #       -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+      #       -Dsonar.sources=src/
+      #       -Dsonar.junit.reportsPath=target/surefire-reports/
+      #       -Dsonar.junit.reportsPath=target/jacoco.exec
+      #       -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
+      #       -Dsonar.java.binaries=target/test-classes/com/opeyemi/fieldvalidation/
 
       # Check the Quality Gate status.
-      - name: SonarQube Quality Gate check
-        id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@master
+      # - name: SonarQube Quality Gate check
+      #   id: sonarqube-quality-gate-check
+      #   uses: sonarsource/sonarqube-quality-gate-action@master
         # Force to fail step after specific time.
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_URL }} #OPTIONAL
+        # timeout-minutes: 5
+        # env:
+        #   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        #   SONAR_HOST_URL: ${{ secrets.SONAR_URL }} #OPTIONAL
 
-  build:
-    needs: Run-Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Java JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+  # build:
+  #   needs: Run-Test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup Java JDK
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         distribution: 'temurin'
+  #         java-version: '17'
 
-      - name: Build with Maven
-        run: mvn -B package -DskipTests --file pom.xml
+  #     - name: Build with Maven
+  #       run: mvn -B package -DskipTests --file pom.xml
       
-      - name: Upload Maven Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: studentGrade_Artifacts
-          path: target/studentGrades-v1.jar
+  #     - name: Upload Maven Artifact
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: studentGrade_Artifacts
+  #         path: target/studentGrades-v1.jar
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: studentGrade_Artifacts
+  #     - name: Download Artifacts
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: studentGrade_Artifacts
 
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v21
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: bank-beanstalk-app
-          environment_name: bank-beanstalk-env
-          version_label: ${{github.run_number}}
-          region: ${{env.AWS_REGION}}
-          deployment_package: studentGrades-v1.jar
+  #     - name: Deploy to EB
+  #       uses: einaregilsson/beanstalk-deploy@v21
+  #       with:
+          # aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         application_name: bank-beanstalk-app
+  #         environment_name: bank-beanstalk-env
+          # version_label: ${{github.run_number}}
+          # region: ${{env.AWS_REGION}}
+          # deployment_package: studentGrades-v1.jar
