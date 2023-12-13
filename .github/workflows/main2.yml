@@ -15,7 +15,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-# 
+
       - name: Run sed command
         run: |
           sed -i 's/^spring.datasource.url.*/spring.datasource.url=jdbc:mysql\:\/\/javademoapp.cfzrgfw3zego/' src/main/resources/application.properties
