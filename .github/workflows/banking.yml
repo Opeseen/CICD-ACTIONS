@@ -18,5 +18,5 @@ jobs:
 
       - name: Run sed command
         run: |
-          sed -i 's/^spring.datasource.url.*/spring.datasource.url=jdbc:mysql\:\/\/javademoapp.cfzrgfw3zego.${{secrets.SONAR_PROJECT_KEY}}/' src/main/resources/application.properties
+          sed -i 's/^spring.datasource.url.*/spring.datasource.url=jdbc:mysql\:\/\/javademoapp.cfzrgfw3zego.${{secrets.SONAR_PROJECT_KEY}}.${{env.AWS_REGION}}/' src/main/resources/application.properties
           cat src/main/resources/application.properties
