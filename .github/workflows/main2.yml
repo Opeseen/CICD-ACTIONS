@@ -1,5 +1,8 @@
 name: TestGradeActions
-on: workflow_dispatch
+on:
+  push:
+    branches:
+    - javabanking
 env:
   AWS_REGION: us-east-1
 jobs:
