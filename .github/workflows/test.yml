@@ -1,0 +1,22 @@
+name: TestGradeActions
+on:
+  push:
+    branches:
+    - javabanking
+env:
+  AWS_REGION: us-east-1
+jobs:
+  Run-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run sed command
+        run: |
+          sed -i 's/^spring.datasource.url.*/spring.datasource.url=jdbc:mysql\:\/\/javademoapp.cfzrgfw3zego/' src/main/resources/application.properties
+          cat src/main/resources/application.properties
