@@ -6,6 +6,12 @@ on:
     - javabanking
 env:
   AWS_REGION: us-east-1
+  RDS_ENDPOINTS: javademoapp
+  DB_NAME: javadb
+  DB_USER: admin
+  DB_PASS: admin
+  EMAIL_USER: admin
+  EMAIL_PASS: admin
 jobs:
   Run-Test:
     runs-on: ubuntu-latest
@@ -19,5 +25,11 @@ jobs:
 
       - name: Run sed command
         run: |
-          sed -i 's/^spring.datasource.url.*/spring.datasource.url=jdbc:mysql\:\/\/javademoapp.cfzrgfw3zego.${{secrets.SONAR_PROJECT_KEY}}.${{env.AWS_REGION}}/' src/main/resources/application.properties
+          sed -i 's/^spring.datasource.url.*/spring.datasource.url=jdbc:mysql\:\/\/${{env.RDS_ENDPOINTS}}\/${{env.DB_NAME}}/' src/main/resources/application.properties
+          sed -i 's/^spring.datasource.username.*/spring.datasource.username=${{env.DB_USER}}'
+          sed -i 's/^spring.datasource.password.*/spring.datasource.password=${{env.DB_PASS}}'
+          sed -i 's/^spring.mail.username.*/spring.mail.username=${{env.EMAIL_USER}}'
+          sed -i 's/^spring.mail.password.*/spring.mail.password=${{env.EMAIL_PASS}}'
+          echo
+          echo
           cat src/main/resources/application.properties
