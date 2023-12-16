@@ -1,4 +1,4 @@
-name: TestGradeActions
+name: JavaBankingActions
 # on: workflow_dispatch
 on:
   push:
@@ -12,8 +12,53 @@ env:
   DB_PASS: admin
   EMAIL_USER: admin
   EMAIL_PASS: admin
+
 jobs:
   Run-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run Maven Test
+        run: mvn test
+
+      - name: Checkstyle Analysis
+        run: mvn checkstyle:checkstyle
+
+      # Setup sonar-scanner
+      - name: Setup SonarQube
+        uses: warchant/setup-sonar-scanner@v7
+
+      # Run sonar-scanner
+      - name: SonarQube Scan
+        run: sonar-scanner
+            -Dsonar.host.url=${{ secrets.SONAR_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.sources=src/
+            -Dsonar.junit.reportsPath=target/surefire-reports/
+            -Dsonar.junit.reportsPath=target/jacoco.exec
+            -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
+            -Dsonar.java.binaries=target/test-classes/com/opeyemi/banking/
+
+      # Check the Quality Gate status.
+      - name: SonarQube Quality Gate check
+        id: sonarqube-quality-gate-check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        # Force to fail step after specific time.
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_URL }} #OPTIONAL
+
+  build:
+    needs: Run-Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,3 +78,12 @@ jobs:
           echo
           echo
           cat src/main/resources/application.properties
+
+      - name: Build with Maven
+        run: mvn -B package -DskipTests --file pom.xml
+      
+      - name: Upload Maven Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: JavaDemoBanking_Artifacts
+          path: target/banking-v1.jar
