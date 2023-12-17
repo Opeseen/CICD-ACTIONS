@@ -28,7 +28,7 @@ jobs:
         run: mvn -f testPom.xml clean test
 
       - name: Checkstyle Analysis
-        run: mvn checkstyle:checkstyle
+        run: mvn -f testPom.xml checkstyle:checkstyle
 
       # Setup sonar-scanner
       - name: Setup SonarQube
